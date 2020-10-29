@@ -25,8 +25,11 @@ public class Player : MonoBehaviour
          var deltaX= Input.GetAxis("Horizontal");
         //newXpostion = current position was in x = the difference moved in x-axis. 
          var newXPos = transform.position.x +deltaX;
+
+        var deltaY = Input.GetAxis("Vertical");
+        var newYpos = transform.position.y + deltaY;
         //move the player ship on the x-axis only. (newXPos) 
-        transform.position = new Vector2(newXPos,transform.position.y);
+        transform.position = new Vector2(newXPos,newYpos);
 
         
     }
