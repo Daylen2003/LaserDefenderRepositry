@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
 {
     //makes the variable editable from unity editor. 
     [SerializeField] float moveSpeed = 10f;
+    [SerializeField] GameObject laserPrefeb;
+    [SerializeField] float laserSpeed = 15f;
 
     float xMin, xMax, yMin, yMax ;
     
@@ -24,7 +26,10 @@ public class Player : MonoBehaviour
     void Update()
     {
         Move();
+        Fire();
     }
+
+    
    
     private void SetUpMoveBounderies()
     {   //Set up the boundaries of movment according to camera
@@ -36,7 +41,18 @@ public class Player : MonoBehaviour
         yMax = gameCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y - padding;
     }
 
-    
+    private void Fire()
+    {
+        //if fire is pressed  spawn a laser at the player ship position
+
+        if(Input.GetButtonDown("Fire1"))
+        {
+            GameObject laser = Instantiate(laserPrefeb, transform.position, Quaternion.identity) as GameObject;
+            // Give the laser a velocity in the Y-axis.
+            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, laserSpeed);
+        }
+
+    }
 
     private void Move()
     {
