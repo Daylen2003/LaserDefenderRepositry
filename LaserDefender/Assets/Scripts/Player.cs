@@ -11,6 +11,12 @@ public class Player : MonoBehaviour
     [SerializeField] float moveSpeed = 10f;
     [SerializeField] GameObject laserPrefeb;
     [SerializeField] float laserSpeed = 15f;
+    [SerializeField] float laserFiringTime = 0.2f;
+
+    bool coroutinestarted = false; 
+    // Coroutine printCoroutine;
+    Coroutine FireCoroutine;
+
 
     float xMin, xMax, yMin, yMax ;
     
@@ -20,6 +26,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         SetUpMoveBounderies();
+        //printCoroutine = StartCoroutine(PrintAndWait());
     }
 
     // Update is called once per frame
@@ -29,7 +36,29 @@ public class Player : MonoBehaviour
         Fire();
     }
 
-    
+    //coruotine example
+    // yield means to let the second message to be printed after 10 seconds
+
+    //private IEnumerator PrintAndWait()
+    //{
+    // prints message 1 after 10 seconds
+    // print message 2
+    //  print("message 1");
+    // yield return new WaitForSeconds(10);
+    // print("message 2 after 10 seconds");
+    // }
+
+    private IEnumerator FireContinouisly()
+    {
+        while (true) // While coroutine is running 
+        {
+            GameObject laser = Instantiate(laserPrefeb, transform.position, Quaternion.identity) as GameObject;
+            // Give the laser a velocity in the Y-axis.
+            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, laserSpeed);
+            
+            yield return new WaitForSeconds(laserFiringTime);
+        }
+    }
    
     private void SetUpMoveBounderies()
     {   //Set up the boundaries of movment according to camera
@@ -47,11 +76,23 @@ public class Player : MonoBehaviour
 
         if(Input.GetButtonDown("Fire1"))
         {
-            GameObject laser = Instantiate(laserPrefeb, transform.position, Quaternion.identity) as GameObject;
-            // Give the laser a velocity in the Y-axis.
-            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, laserSpeed);
+            // if coroutine has not started 
+            // to avoid starting more than one same coroutine
+            if (!coroutinestarted)// If coroutine started == false
+            {
+                //start coroutine
+                FireCoroutine = StartCoroutine(FireContinouisly());
+                //set coroutine = true
+                coroutinestarted = true;
+            }
+            
         }
 
+        if (Input.GetButtonUp("Fire1"))
+        {
+            StopCoroutine(FireCoroutine);
+            coroutinestarted = false; 
+        }
     }
 
     private void Move()
