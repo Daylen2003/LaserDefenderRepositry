@@ -7,7 +7,10 @@ public class EnemyPathing : MonoBehaviour
     // A list of type transform as waypoints are at postions in x and y. 
     //Transform because our list is made from x and y-axis. 
     [SerializeField] List<Transform> waypointsList;
+
     [SerializeField] float enemeyMoveSpeed = 2f;
+
+    [SerializeField] WavConvig waveConfig;
     // shows the next waypoint
     int waypointIndex = 0;
     // Start is called before the first frame update
@@ -15,6 +18,9 @@ public class EnemyPathing : MonoBehaviour
     {
         // Set the starting position of the enemy ship to the 1st waypoint
         transform.position = waypointsList[waypointIndex].transform.position;
+
+        waypointsList = waveConfig.GetWayPointLists();
+
     }
 
     // Update is called once per frame
