@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1381e6fdd0916941bac5c19defcf571, type: 3}
   m_Name: Wav1
   m_EditorClassIdentifier: 
-  enemyPrefeb: {fileID: 2710007541775729654, guid: 291feda207005214eaef5908e84b9df1, type: 3}
+  enemyPrefeb: {fileID: 5793305993312207580, guid: 396b61e83330e904e8368f749ab22b90, type: 3}
   pathPrefeb: {fileID: 6580218112383654630, guid: b89458f65c813114f973b5913bfacec9, type: 3}
   timeBetweenSpawns: 0.5
   spawnRandomfactor: 0.3

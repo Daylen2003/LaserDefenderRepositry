@@ -6,15 +6,19 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] List<WavConvig> waveConfigList;
 
-    //start from 0 
-    int startingWave = 0;
-    // Start is called before the first frame update
-    void Start()
-    {
-        // Set the current move to the first wave (0)
-        var currentWave = waveConfigList[startingWave];
+    [SerializeField] bool looping = false; 
 
-        StartCoroutine(SpawnAllEnemiesInWave(currentWave));
+    
+    // Start is called before the first frame update
+    IEnumerator Start()
+    {
+        do
+        {
+            yield return StartCoroutine(SpawnAllWaves());
+        }
+        //When coroutine SpawnAllWaves finishes if looping == true
+        while (looping); // while looping == true
+        
     }
 
 
@@ -33,11 +37,28 @@ public class EnemySpawner : MonoBehaviour
                        waveToSpawn.GetEnemyPrefab(),
                        waveToSpawn.GetWayPointLists()[0].transform.position,
                        Quaternion.identity) as GameObject;
+            // setting the wave as a component to the enemy
+            newEnemy.GetComponent<EnemyPathing>().SetWaveConfig(waveToSpawn);
+
             yield return new WaitForSeconds(waveToSpawn.GetTimeBetweenSpawns());
 
         }
         //spawn the enemy prefeb from waveToSpawn
         //at the position of 1st waypoint in Path.
 
+    }
+    private IEnumerator SpawnAllWaves()
+    {
+        // curret wave is a new variable
+        // acccess each wave I have in wavConfig list
+        // and wait for all enemies in that wave to spawn
+        // before looping again
+        foreach (WavConvig currentWave in waveConfigList)
+        {
+            // before yielding and returning 
+            // spawn all enemies in wave
+
+            yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
+        }
     }
 }

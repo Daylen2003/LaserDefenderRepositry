@@ -8,8 +8,6 @@ public class EnemyPathing : MonoBehaviour
     //Transform because our list is made from x and y-axis. 
     [SerializeField] List<Transform> waypointsList;
 
-    [SerializeField] float enemeyMoveSpeed = 2f;
-
     [SerializeField] WavConvig waveConfig;
     // shows the next waypoint
     int waypointIndex = 0;
@@ -42,7 +40,7 @@ public class EnemyPathing : MonoBehaviour
             
             targetPosition.z = 0f;
             //enemyMovement per frame 
-            var enemnyMovement = enemeyMoveSpeed * Time.deltaTime;
+            var enemnyMovement = waveConfig.GetEnemyMoveSpeed() * Time.deltaTime;
 
             //move from current position, to target position, at enemy movement speed
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, enemnyMovement);
@@ -58,5 +56,10 @@ public class EnemyPathing : MonoBehaviour
         {
             Destroy(gameObject); 
         }
+    }
+    // setting up a wave
+    public void SetWaveConfig(WavConvig waveConfigToSet)
+    {
+        waveConfig = waveConfigToSet; 
     }
 }
