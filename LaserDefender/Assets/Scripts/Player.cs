@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 public class Player : MonoBehaviour
 {
     //makes the variable editable from unity editor. 
+    [SerializeField] int health = 100;
     [SerializeField] float moveSpeed = 10f;
     [SerializeField] GameObject laserPrefeb;
     [SerializeField] float laserSpeed = 15f;
@@ -115,5 +116,23 @@ public class Player : MonoBehaviour
 
         
     }
+    private void OnTriggerEnter2D(Collider2D otherObject)
+    {
+        // access damage dealer from other object that hit the enemy, and reduce health accordingly.
+        DamageDealer dmg = otherObject.gameObject.GetComponent<DamageDealer>();
+        ProcessHit(dmg);
+    }
 
+    private void ProcessHit(DamageDealer dmg)
+    {
+        health -= dmg.GetDamage();
+
+        dmg.Hit();// so that the laser is destroyed when hit the object. 
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+            
+        }
+    }
 }
