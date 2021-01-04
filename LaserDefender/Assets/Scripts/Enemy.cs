@@ -13,7 +13,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] float maxTimeBetweenShots = 3f;
 
     [SerializeField] GameObject enemyLaserPrefab;
-    [SerializeField] float enemeyLaserSpeed = 5f; 
+    [SerializeField] float enemeyLaserSpeed = 5f;
+
+    [SerializeField] AudioClip enemyDeathSound;
+    [SerializeField] [Range(0, 1)] float enemyDeathSoundVolume = 0.75f;
+
+    [SerializeField] AudioClip enemyShootSound;
+    [SerializeField] [Range(0, 1)] float enemyShootSoundVolume = 0.3f;
 
     // otherObject is a variable name, reduce enemy health whenever enemy collides with a gameObject that have a damage dealer component. 
     private void OnTriggerEnter2D(Collider2D otherObject)
@@ -31,8 +37,15 @@ public class Enemy : MonoBehaviour
 
         if (health <= 0)
         {
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    private void Die()
+    
+    {
+        Destroy(gameObject);
+        AudioSource.PlayClipAtPoint(enemyDeathSound, Camera.main.transform.position, enemyDeathSoundVolume);
     }
 
     // Start is called before the first frame update
@@ -62,10 +75,12 @@ public class Enemy : MonoBehaviour
             shotCounter = Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
         }
     }
+
     private void EnemyFire()
     {
         GameObject laser = Instantiate(enemyLaserPrefab, transform.position, Quaternion.identity) as GameObject;
         // Give the laser a velocity in the Y-axis.
         laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0,-enemeyLaserSpeed);
+        AudioSource.PlayClipAtPoint(enemyShootSound, Camera.main.transform.position, enemyShootSoundVolume);
     }
 }
