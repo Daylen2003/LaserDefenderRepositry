@@ -121,6 +121,8 @@ MonoBehaviour:
   enemyDeathSoundVolume: 0.75
   enemyShootSound: {fileID: 8300000, guid: a3f2a5bb42a1f5747a972453a40f6b7e, type: 3}
   enemyShootSoundVolume: 0.3
+  deathEffects: {fileID: 5199908967602104245, guid: 90a4cbe9fe9a5c34ba196957dc754188, type: 3}
+  explosionDuaration: 1
 --- !u!60 &-1017345242996862594
 PolygonCollider2D:
   m_ObjectHideFlags: 0
