@@ -29,6 +29,11 @@ public class Enemy : MonoBehaviour
     {
         // access damage dealer from other object that hit the enemy, and reduce health accordingly.
         DamageDealer dmg = otherObject.gameObject.GetComponent<DamageDealer>();
+
+        if(!dmg) // if object does bit contain damage dealer.
+        {
+            return; // end the method
+        }
         ProcessHit(dmg);
     }
 
