@@ -43,6 +43,11 @@ public class Player : MonoBehaviour
         Fire();
     }
 
+    public int GetHealth()
+    {
+        return health;
+    }
+
     //coruotine example
     // yield means to let the second message to be printed after 10 seconds
 
@@ -139,6 +144,7 @@ public class Player : MonoBehaviour
         if (health <= 0)
         {
 
+            health = 0;
             Die(); 
         }
     }

@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] float health = 100;
 
+    [SerializeField] int scoreValue = 10;
+
     [SerializeField] float shotCounter;
     [SerializeField] float minTimeBetweenShots = 0.2f;
     [SerializeField] float maxTimeBetweenShots = 3f;
@@ -52,6 +54,8 @@ public class Enemy : MonoBehaviour
     private void Die()
     
     {
+        FindObjectOfType<GameSession>().AddToScore(scoreValue);
+
         Destroy(gameObject);
         AudioSource.PlayClipAtPoint(enemyDeathSound, Camera.main.transform.position, enemyDeathSoundVolume);
         //create an explosion particle using intintiate
